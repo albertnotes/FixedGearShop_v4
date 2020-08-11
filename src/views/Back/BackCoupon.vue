@@ -169,7 +169,8 @@ import SharedPagination from '@/components/Shared/SharedPagination.vue';
 import Datepicker from 'vuejs-datepicker';
 
 export default {
-  data() {
+  data(
+  ) {
     return {
       coupons: [],
       tempCoupon: {},
@@ -183,11 +184,16 @@ export default {
     };
   },
   watch: {
-    due_date() {
+    due_date(
+    ) {
       const vm = this;
       // input type="date" 是字串 - 年月日
       // watch due_date 值當有變動時，轉為時間戳記 會 / 1000 是把毫秒拿掉取整數
-      const timestamp = Math.floor(new Date(vm.due_date) / 1000);
+      const timestamp = Math.floor(
+        new Date(
+          vm.due_date,
+        ) / 1000,
+      );
       vm.tempCoupon.due_date = timestamp;
     },
   },
@@ -196,21 +202,32 @@ export default {
     Datepicker,
   },
   methods: {
-    getCoupon(page = 1) {
+    getCoupon(
+      page = 1,
+    ) {
       const vm = this;
       vm.status.isLoading = true;
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/coupons?page=${page}`;
-      vm.$http.get(api).then((response) => {
-        if (response.data.success) {
-          vm.coupons = response.data.coupons;
-          vm.pagination = response.data.pagination;
-          setTimeout(() => {
-            vm.status.isLoading = false;
-          }, 500);
-        }
-      });
+      vm.$http.get(
+        api,
+      ).then(
+        (response) => {
+          if (response.data.success) {
+            vm.coupons = response.data.coupons;
+            vm.pagination = response.data.pagination;
+            setTimeout(
+              (
+              ) => {
+                vm.status.isLoading = false;
+              }, 500,
+            );
+          }
+        },
+      );
     },
-    openModal(isNew, Coupon) {
+    openModal(
+      isNew, Coupon,
+    ) {
       this.isNew = isNew;
       if (isNew) {
         this.due_date = ''; // init
@@ -218,12 +235,22 @@ export default {
       } else {
         // 避免傳址
         this.tempCoupon = { ...Coupon };
-        const dateAndTime = new Date(this.tempCoupon.due_date * 1000).toISOString().split('T');
+        const dateAndTime = new Date(
+          this.tempCoupon.due_date * 1000,
+        ).toISOString(
+        ).split(
+          'T',
+        );
         this.due_date = dateAndTime['0'];
       }
-      $('#CouponModal').modal('show');
+      $(
+        '#CouponModal',
+      ).modal(
+        'show',
+      );
     },
-    updateCoupon() {
+    updateCoupon(
+    ) {
       const vm = this;
       let api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/coupon`;
       let httpMethod = 'post';
@@ -231,41 +258,84 @@ export default {
         api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/coupon/${vm.tempCoupon.id}`;
         httpMethod = 'put';
       }
-      vm.$http[httpMethod](api, { data: vm.tempCoupon }).then((response) => {
-        if (response.data.success) {
-          $('#CouponModal').modal('hide');
-          vm.getCoupon();
-        } else {
-          $('#CouponModal').modal('hide');
-          vm.getCoupon();
-          vm.$bus.$emit('message:push', response.data.message, 'danger');
-        }
-      });
+      vm.$http[httpMethod](
+        api, { data: vm.tempCoupon },
+      ).then(
+        (response) => {
+          if (response.data.success) {
+            $(
+              '#CouponModal',
+            ).modal(
+              'hide',
+            );
+            vm.getCoupon(
+            );
+          } else {
+            $(
+              '#CouponModal',
+            ).modal(
+              'hide',
+            );
+            vm.getCoupon(
+            );
+            vm.$bus.$emit(
+              'message:push', response.data.message, 'danger',
+            );
+          }
+        },
+      );
     },
-    openDelModal(coupon) {
+    openDelModal(
+      coupon,
+    ) {
       this.tempCoupon = coupon;
-      $('#delCouponModal').modal('show');
+      $(
+        '#delCouponModal',
+      ).modal(
+        'show',
+      );
     },
-    updateDelCoupon() {
+    updateDelCoupon(
+    ) {
       const vm = this;
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/Coupon/${vm.tempCoupon.id}`;
-      vm.$http.delete(api).then((response) => {
-        if (response.data.success) {
-          $('#delCouponModal').modal('hide');
-          vm.getCoupon();
-        } else {
-          $('#delCouponModal').modal('hide');
-          vm.getCoupon();
-          vm.$bus.$emit('message:push', response.data.message, 'danger');
-        }
-      });
+      vm.$http.delete(
+        api,
+      ).then(
+        (response) => {
+          if (response.data.success) {
+            $(
+              '#delCouponModal',
+            ).modal(
+              'hide',
+            );
+            vm.getCoupon(
+            );
+          } else {
+            $(
+              '#delCouponModal',
+            ).modal(
+              'hide',
+            );
+            vm.getCoupon(
+            );
+            vm.$bus.$emit(
+              'message:push', response.data.message, 'danger',
+            );
+          }
+        },
+      );
     },
-    ComponentDate(date) {
+    ComponentDate(
+      date,
+    ) {
       this.due_date = date;
     },
   },
-  created() {
-    this.getCoupon(); // init
+  created(
+  ) {
+    this.getCoupon(
+    ); // init
   },
 };
 </script>

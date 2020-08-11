@@ -130,7 +130,8 @@ import SharedPagination from '@/components/Shared/SharedPagination.vue';
 
 export default {
   name: 'FrontCategory',
-  data() {
+  data(
+  ) {
     return {
       status: {
         isLoading: false,
@@ -148,34 +149,55 @@ export default {
     SharedPagination,
   },
   methods: {
-    toCategory(category) {
+    toCategory(
+      category,
+    ) {
       this.categoryProduct = category;
-      this.getProducts();
+      this.getProducts(
+      );
     },
   },
   computed: {
-    getCategory() {
+    getCategory(
+    ) {
       const vm = this;
       const temp = [];
       // 過濾重覆 category 值
-      vm.allProducts.forEach((element) => {
-        if (!temp.includes(element.category)) {
-          temp.push(element.category);
-        }
-      });
+      vm.allProducts.forEach(
+        (element) => {
+          if (!temp.includes(
+            element.category,
+          )) {
+            temp.push(
+              element.category,
+            );
+          }
+        },
+      );
       // 字串排序
-      return temp.sort(() => 0 - 1);
+      return temp.sort(
+        (
+        ) => 0 - 1,
+      );
     },
   },
-  created() {
+  created(
+  ) {
     // 註冊監聽 message:category 事件，參數為 fn
-    this.$bus.$on('message:category', this.toCategory);
-    this.getProducts();
-    this.getCart();
+    this.$bus.$on(
+      'message:category', this.toCategory,
+    );
+    this.getProducts(
+    );
+    this.getCart(
+    );
   },
-  beforeDestroy() {
+  beforeDestroy(
+  ) {
     // 手動銷毀事件，eventBus 不會自動清除
-    this.$bus.$off('message:category', this.toCategory);
+    this.$bus.$off(
+      'message:category', this.toCategory,
+    );
   },
 };
 </script>

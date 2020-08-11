@@ -14,34 +14,68 @@ import './bus';
 import './vee-validate';
 import currencyFilter from './filters/currency';
 import date from './filters/date';
+import store from './store';
 
-Vue.use(VueAwesomeSwiper);
-Vue.use(VueAxios, axios);
+Vue.use(
+  VueAwesomeSwiper,
+);
+Vue.use(
+  VueAxios, axios,
+);
 axios.defaults.withCredentials = true;
-Vue.component('Loading', Loading);
-Vue.filter('currency', currencyFilter);
-Vue.filter('date', date);
+Vue.component(
+  'Loading', Loading,
+);
+Vue.filter(
+  'currency', currencyFilter,
+);
+Vue.filter(
+  'date', date,
+);
 Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  render: (h) => h(App),
-}).$mount('#app');
+new Vue(
+  {
+    router,
+    store,
+    render: (h) => h(
+      App,
+    ),
+  },
+).$mount(
+  '#app',
+);
 
-router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    const api = `${process.env.VUE_APP_API_PATH}/api/user/check`;
-    Vue.axios.post(api).then((response) => {
-      if (response.data.success) {
-        next();
-      } else {
-        next({
-          path: '/',
-        });
-        $('#SigninModal').modal('show');
-      }
-    });
-  } else {
-    next();
-  }
-});
+router.beforeEach(
+  (
+    to, from, next,
+  ) => {
+    if (to.meta.requiresAuth) {
+      const api = `${process.env.VUE_APP_API_PATH}/api/user/check`;
+      Vue.axios.post(
+        api,
+      ).then(
+        (response) => {
+          if (response.data.success) {
+            next(
+            );
+          } else {
+            next(
+              {
+                path: '/',
+              },
+            );
+            $(
+              '#SigninModal',
+            ).modal(
+              'show',
+            );
+          }
+        },
+      );
+    } else {
+      next(
+      );
+    }
+  },
+);

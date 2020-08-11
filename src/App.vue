@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
   flex-direction: column;
   height: 100vh;
   .l-stickyFooter__main {
-    flex: 1 0 auto
+    flex: 1 0 auto;
   }
   .l-stickyFooter__footer {
     flex-shrink: 0;

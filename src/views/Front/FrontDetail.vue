@@ -131,7 +131,8 @@ import FrontHeader from '@/components/Front/FrontHeader.vue';
 
 export default {
   name: 'FrontDetail',
-  data() {
+  data(
+  ) {
     return {
       status: {
         isLoading: false,
@@ -149,25 +150,36 @@ export default {
     swiperData,
   ],
   methods: {
-    updateDetailId() {
+    updateDetailId(
+    ) {
       this.detailId = this.$route.params.detailId;
-      this.getProduct(this.detailId);
+      this.getProduct(
+        this.detailId,
+      );
     },
   },
   computed: {
-    filterProducts() {
+    filterProducts(
+    ) {
       const vm = this;
       const temp = [...this.allProducts];
-      const filter = temp.filter((element) => (
-        element.category === vm.product.category));
+      const filter = temp.filter(
+        (element) => (
+          element.category === vm.product.category),
+      );
       return filter;
     },
   },
-  created() {
+  created(
+  ) {
     this.detailId = this.$route.params.detailId;
-    this.getProduct(this.detailId);
-    this.getCart();
-    this.getProducts();
+    this.getProduct(
+      this.detailId,
+    );
+    this.getCart(
+    );
+    this.getProducts(
+    );
   },
 };
 </script>

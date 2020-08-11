@@ -34,9 +34,13 @@ export default {
     pagesData: Object,
   },
   methods: {
-    currentPage(page) {
+    currentPage(
+      page,
+    ) {
       // $emit 向上層呼叫 "current-page" 事件並傳遞 "page" 參數;
-      this.$emit('current-page', page);
+      this.$emit(
+        'current-page', page,
+      );
     },
   },
 };

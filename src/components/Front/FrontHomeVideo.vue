@@ -21,7 +21,8 @@ export default {
   props: {
     containerStyle: String,
   },
-  data() {
+  data(
+  ) {
     return {
       desktopShow: window.screen.width >= 768,
     };

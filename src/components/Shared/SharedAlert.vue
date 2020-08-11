@@ -1,10 +1,18 @@
 <template>
   <div class="message-alert">
-    <div class="alert alert-dismissible"
+    <div
+      class="alert alert-dismissible"
       :class="'alert-' + item.status"
-      v-for="(item, i) in messages" :key="i">
+      v-for="(item, i) in messages"
+      :key="i"
+    >
       {{ item.message }}
-      <button type="button" class="close" @click="removeMessage(i)" aria-label="Close">
+      <button
+        type="button"
+        class="close"
+        @click="removeMessage(i)"
+        aria-label="Close"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -66,7 +74,7 @@ export default {
   top: 75px;
   right: 20px;
   z-index: 1100;
-  @media (max-width:767px) {
+  @media (max-width: 767px) {
     left: 50%;
     transform: translateX(-50%);
   }

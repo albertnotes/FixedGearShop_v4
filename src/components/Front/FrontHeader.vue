@@ -246,7 +246,8 @@ import $ from 'jquery';
 
 export default {
   name: 'FrontHeader',
-  data() {
+  data(
+  ) {
     return {
       user: {
         username: '',
@@ -261,29 +262,59 @@ export default {
     'navClass',
   ],
   methods: {
-    signin() {
+    signin(
+    ) {
       const api = `${process.env.VUE_APP_API_PATH}/admin/signin`;
       const vm = this;
-      vm.$http.post(api, vm.user).then((response) => {
-        if (response.data.success) {
-          vm.$router.push('/dashboard');
-          $('#SigninModal').modal('hide');
-        } else {
-          vm.$bus.$emit('message:push', response.data.message, 'danger');
-          $('#SigninModal').modal('hide');
-        }
-      });
+      vm.$http.post(
+        api, vm.user,
+      ).then(
+        (response) => {
+          if (response.data.success) {
+            vm.$router.push(
+              '/dashboard',
+            );
+            $(
+              '#SigninModal',
+            ).modal(
+              'hide',
+            );
+          } else {
+            vm.$bus.$emit(
+              'message:push', response.data.message, 'danger',
+            );
+            $(
+              '#SigninModal',
+            ).modal(
+              'hide',
+            );
+          }
+        },
+      );
     },
-    deleteCart(id) {
-      this.$emit('delete-cart', id);
+    deleteCart(
+      id,
+    ) {
+      this.$emit(
+        'delete-cart', id,
+      );
     },
-    updateCartQty(addId, qty, deleteId) {
-      this.$emit('update-cart-qty', addId, qty, deleteId);
+    updateCartQty(
+      addId, qty, deleteId,
+    ) {
+      this.$emit(
+        'update-cart-qty', addId, qty, deleteId,
+      );
     },
-    getProduct(search) {
-      this.$emit('search-product', search);
+    getProduct(
+      search,
+    ) {
+      this.$emit(
+        'search-product', search,
+      );
     },
-    onScroll() {
+    onScroll(
+    ) {
       // 獲取當前滾輪高度
       const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
       // 假設 小於 0 回傳空值
@@ -293,11 +324,17 @@ export default {
       this.scrolled = currentScrollPosition > 1;
     },
   },
-  mounted() {
-    window.addEventListener('scroll', this.onScroll);
+  mounted(
+  ) {
+    window.addEventListener(
+      'scroll', this.onScroll,
+    );
   },
-  beforeDestroy() {
-    window.removeEventListener('scroll', this.onScroll);
+  beforeDestroy(
+  ) {
+    window.removeEventListener(
+      'scroll', this.onScroll,
+    );
   },
 };
 </script>

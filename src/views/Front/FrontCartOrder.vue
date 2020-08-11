@@ -148,7 +148,8 @@ import FrontHeader from '@/components/Front/FrontHeader.vue';
 
 export default {
   name: 'FrontPay',
-  data() {
+  data(
+  ) {
     return {
       orderId: '',
       order: {
@@ -166,33 +167,50 @@ export default {
     cart,
   ],
   methods: {
-    getOrder() {
+    getOrder(
+    ) {
       const vm = this;
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/order/${vm.orderId}`;
-      vm.$http.get(api).then((response) => {
-        if (response.data.success) {
-          vm.order = response.data.order;
-        }
-      });
+      vm.$http.get(
+        api,
+      ).then(
+        (response) => {
+          if (response.data.success) {
+            vm.order = response.data.order;
+          }
+        },
+      );
     },
-    payOrder() {
+    payOrder(
+    ) {
       const vm = this;
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/pay/${vm.orderId}`;
       vm.status.isLoading = true;
-      vm.$http.post(api).then((response) => {
-        if (response.data.success) {
-          vm.getOrder();
-          setTimeout(() => {
-            vm.status.isLoading = false;
-          }, 500);
-        }
-      });
+      vm.$http.post(
+        api,
+      ).then(
+        (response) => {
+          if (response.data.success) {
+            vm.getOrder(
+            );
+            setTimeout(
+              (
+              ) => {
+                vm.status.isLoading = false;
+              }, 500,
+            );
+          }
+        },
+      );
     },
   },
-  created() {
+  created(
+  ) {
     this.orderId = this.$route.params.orderId;
-    this.getOrder();
-    this.getCart();
+    this.getOrder(
+    );
+    this.getCart(
+    );
   },
 };
 </script>

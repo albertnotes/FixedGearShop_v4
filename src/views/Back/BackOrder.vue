@@ -43,7 +43,8 @@
 import SharedPagination from '@/components/Shared/SharedPagination.vue';
 
 export default {
-  data() {
+  data(
+  ) {
     return {
       orders: [],
       status: {
@@ -57,41 +58,57 @@ export default {
     SharedPagination,
   },
   methods: {
-    getOrders(page = 1) {
+    getOrders(
+      page = 1,
+    ) {
       const vm = this;
       const api = `
       ${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/orders?page=${page}`;
       vm.status.isLoading = true;
-      vm.$http.get(api).then((response) => {
-        if (response.data.success) {
-          vm.orders = response.data.orders;
-          vm.pagination = response.data.pagination;
-          setTimeout(() => {
-            vm.status.isLoading = false;
-          }, 500);
-        }
-      });
+      vm.$http.get(
+        api,
+      ).then(
+        (response) => {
+          if (response.data.success) {
+            vm.orders = response.data.orders;
+            vm.pagination = response.data.pagination;
+            setTimeout(
+              (
+              ) => {
+                vm.status.isLoading = false;
+              }, 500,
+            );
+          }
+        },
+      );
     },
   },
   computed: {
-    sortOrder() {
+    sortOrder(
+    ) {
       const vm = this;
       let tempOrder = [];
       if (vm.orders.length) {
         // 假設 a 已付款 b 未付款
         // 回傳值小於 0 即 a 在前
         // 回傳值大於 0 即 b 在前
-        tempOrder = vm.orders.sort((a, b) => {
-          const aIsPaid = a.is_paid ? 1 : 0;
-          const bIsPaid = b.is_paid ? 1 : 0;
-          return bIsPaid - aIsPaid;
-        });
+        tempOrder = vm.orders.sort(
+          (
+            a, b,
+          ) => {
+            const aIsPaid = a.is_paid ? 1 : 0;
+            const bIsPaid = b.is_paid ? 1 : 0;
+            return bIsPaid - aIsPaid;
+          },
+        );
       }
       return tempOrder;
     },
   },
-  created() {
-    this.getOrders(); // init
+  created(
+  ) {
+    this.getOrders(
+    ); // init
   },
 };
 </script>

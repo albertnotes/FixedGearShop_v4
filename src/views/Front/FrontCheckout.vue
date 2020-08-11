@@ -233,7 +233,8 @@ import FrontHeader from '@/components/Front/FrontHeader.vue';
 
 export default {
   name: 'FrontCheckout',
-  data() {
+  data(
+  ) {
     return {
       status: {
         isLoading: false,
@@ -247,8 +248,10 @@ export default {
   components: {
     FrontHeader,
   },
-  created() {
-    this.getCart();
+  created(
+  ) {
+    this.getCart(
+    );
   },
 };
 </script>

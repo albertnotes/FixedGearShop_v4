@@ -200,7 +200,8 @@ import getProducts from '@/mixins/getProducts';
 import SharedPagination from '@/components/Shared/SharedPagination.vue';
 
 export default {
-  data() {
+  data(
+  ) {
     return {
       tempProduct: {},
       isNew: false,
@@ -217,7 +218,9 @@ export default {
     getProducts,
   ],
   methods: {
-    openModal(isNew, product) {
+    openModal(
+      isNew, product,
+    ) {
       this.isNew = isNew;
       if (isNew) {
         this.tempProduct = {};
@@ -225,9 +228,14 @@ export default {
         // 避免傳址
         this.tempProduct = { ...product };
       }
-      $('#productModal').modal('show');
+      $(
+        '#productModal',
+      ).modal(
+        'show',
+      );
     },
-    updateProduct() {
+    updateProduct(
+    ) {
       const vm = this;
       let api = `
       ${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/product`;
@@ -237,60 +245,113 @@ export default {
         api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/product/${vm.tempProduct.id}`;
         httpMethod = 'put';
       }
-      vm.$http[httpMethod](api, { data: vm.tempProduct }).then((response) => {
-        if (response.data.success) {
-          $('#productModal').modal('hide');
-          vm.getProducts();
-        } else {
-          $('#productModal').modal('hide');
-          vm.getProducts();
-          vm.$bus.$emit('message:push', response.data.message, 'danger');
-        }
-      });
+      vm.$http[httpMethod](
+        api, { data: vm.tempProduct },
+      ).then(
+        (response) => {
+          if (response.data.success) {
+            $(
+              '#productModal',
+            ).modal(
+              'hide',
+            );
+            vm.getProducts(
+            );
+          } else {
+            $(
+              '#productModal',
+            ).modal(
+              'hide',
+            );
+            vm.getProducts(
+            );
+            vm.$bus.$emit(
+              'message:push', response.data.message, 'danger',
+            );
+          }
+        },
+      );
     },
-    openDelModal(product) {
+    openDelModal(
+      product,
+    ) {
       this.tempProduct = product;
-      $('#delProductModal').modal('show');
+      $(
+        '#delProductModal',
+      ).modal(
+        'show',
+      );
     },
-    updateDelProduct() {
+    updateDelProduct(
+    ) {
       const vm = this;
       const api = `
       ${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/product/${vm.tempProduct.id}`;
-      vm.$http.delete(api).then((response) => {
-        if (response.data.success) {
-          $('#delProductModal').modal('hide');
-          vm.getProducts();
-        } else {
-          $('#delProductModal').modal('hide');
-          vm.getProducts();
-          vm.$bus.$emit('message:push', response.data.message, 'danger');
-        }
-      });
+      vm.$http.delete(
+        api,
+      ).then(
+        (response) => {
+          if (response.data.success) {
+            $(
+              '#delProductModal',
+            ).modal(
+              'hide',
+            );
+            vm.getProducts(
+            );
+          } else {
+            $(
+              '#delProductModal',
+            ).modal(
+              'hide',
+            );
+            vm.getProducts(
+            );
+            vm.$bus.$emit(
+              'message:push', response.data.message, 'danger',
+            );
+          }
+        },
+      );
     },
-    uploadFile() {
+    uploadFile(
+    ) {
       const vm = this;
       const uploadedFile = this.$refs.files.files[0];
-      const formData = new FormData();
-      formData.append('file-to-upload', uploadedFile);
+      const formData = new FormData(
+      );
+      formData.append(
+        'file-to-upload', uploadedFile,
+      );
       const api = `
       ${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/upload`;
       vm.status.fileUploading = true;
-      vm.$http.post(api, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      vm.$http.post(
+        api, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         },
-      }).then((response) => {
-        if (response.data.success) {
-          vm.$set(vm.tempProduct, 'imageUrl', response.data.imageUrl);
-          vm.status.fileUploading = false;
-        } else {
-          vm.$bus.$emit('message:push', response.data.message, 'danger');
-        }
-      });
+      ).then(
+        (response) => {
+          if (response.data.success) {
+            vm.$set(
+              vm.tempProduct, 'imageUrl', response.data.imageUrl,
+            );
+            vm.status.fileUploading = false;
+          } else {
+            vm.$bus.$emit(
+              'message:push', response.data.message, 'danger',
+            );
+          }
+        },
+      );
     },
   },
-  created() {
-    this.getProducts();
+  created(
+  ) {
+    this.getProducts(
+    );
   },
 };
 </script>

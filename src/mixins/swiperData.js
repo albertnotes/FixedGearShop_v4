@@ -1,5 +1,6 @@
 export default {
-  data() {
+  data(
+  ) {
     return {
       swiperOptionMuch: {
         slidesPerView: 1,

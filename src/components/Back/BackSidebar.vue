@@ -33,14 +33,21 @@
 export default {
   name: 'BackSidebar',
   methods: {
-    signout() {
+    signout(
+    ) {
       const api = `${process.env.VUE_APP_API_PATH}/logout`;
       const vm = this;
-      vm.$http.post(api).then((response) => {
-        if (response.data.success) {
-          vm.$router.push('/');
-        }
-      });
+      vm.$http.post(
+        api,
+      ).then(
+        (response) => {
+          if (response.data.success) {
+            vm.$router.push(
+              '/',
+            );
+          }
+        },
+      );
     },
   },
 };
