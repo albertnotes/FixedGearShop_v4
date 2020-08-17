@@ -1,12 +1,20 @@
 <template>
   <div>
-    <shared-alert/>
-    <back-header/>
+    <loading :active.sync="isloading">
+      <template name="default">
+        <div class="lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
+      </template>
+    </loading>
+    <shared-alert />
+    <back-header />
     <div class="container-fluid">
       <div class="row">
-        <back-sidebar/>
+        <back-sidebar />
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-          <router-view/>
+          <router-view />
         </main>
       </div>
     </div>
@@ -19,6 +27,13 @@ import BackSidebar from '@/components/Back/BackSidebar.vue';
 import SharedAlert from '@/components/Shared/SharedAlert.vue';
 
 export default {
+  computed: {
+    isloading: {
+      get() {
+        return this.$store.state.isLoading;
+      },
+    },
+  },
   components: {
     BackHeader,
     BackSidebar,
@@ -28,15 +43,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-[role="main"] {
+[role='main'] {
   padding-top: 133px; /* Space for fixed navbar */
 }
 
 @media (min-width: 768px) {
-  [role="main"] {
+  [role='main'] {
     padding-top: 48px; /* Space for fixed navbar */
   }
 }
-
 </style>

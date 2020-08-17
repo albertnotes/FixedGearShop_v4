@@ -1,10 +1,5 @@
 <template>
   <div>
-    <loading :active.sync="status.isLoading">
-      <template name="default">
-        <div class="lds-ripple"><div></div><div></div></div>
-      </template>
-    </loading>
     <div class="form-inline my-2">
       <button class="btn btn-sm btn-primary ml-auto"
       @click="openModal(true)">新增優惠卷</button>

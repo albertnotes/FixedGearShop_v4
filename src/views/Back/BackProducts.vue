@@ -1,10 +1,5 @@
 <template>
   <div>
-    <loading :active.sync="status.isLoading">
-      <template name="default">
-        <div class="lds-ripple"><div></div><div></div></div>
-      </template>
-    </loading>
     <div class="form-inline my-2">
       <input class="form-control form-control-sm w-50 mr-auto"
       type="text" placeholder="Search 請按 Enter"

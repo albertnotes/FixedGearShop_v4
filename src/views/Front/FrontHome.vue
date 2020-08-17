@@ -1,20 +1,5 @@
 <template>
   <div>
-    <loading :active.sync="status.isLoading">
-      <template name="default">
-        <div class="lds-ripple">
-          <div></div>
-          <div></div>
-        </div>
-      </template>
-    </loading>
-    <front-header
-      :carts="carts"
-      :nav-class="['navbar-dark', 'fixed-top']"
-      :cartCurrentNumber="cartCurrentNumber"
-      @delete-cart="deleteCart"
-      @update-cart-qty="updateCartQty"
-    />
     <main>
       <keep-alive>
         <front-home-video :container-style="'height: 70vh'" />
@@ -280,18 +265,18 @@
 </template>
 
 <script>
+
 // mixins
 import getProducts from '@/mixins/getProducts';
 import cart from '@/mixins/cart';
 import toDetail from '@/mixins/toDetail';
 import swiperData from '@/mixins/swiperData';
+
 // components
-import FrontHeader from '@/components/Front/FrontHeader.vue';
 import FrontHomeVideo from '@/components/Front/FrontHomeVideo.vue';
+
 // 影片套件
 import LazyYoutubeVideo from 'vue-lazy-youtube-video';
-
-// Vuex
 
 export default {
   name: 'FrontHome',
@@ -322,15 +307,9 @@ export default {
         this.$store.commit('products/CATEGORYPRODUCT', val);
       },
     },
-    cartsTotal: {
-      get() {
-        return this.$store.getters['carts/cartsTotal'];
-      },
-    },
   },
   mixins: [getProducts, cart, toDetail, swiperData],
   components: {
-    FrontHeader,
     FrontHomeVideo,
     LazyYoutubeVideo,
   },
@@ -369,10 +348,6 @@ export default {
         intersectionObserver.observe(el);
       }
     },
-  },
-  created() {
-    this.getProducts();
-    this.getCart();
   },
   mounted() {
     this.playedScrollObserver();

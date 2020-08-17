@@ -1,10 +1,5 @@
 <template>
   <div>
-    <loading :active.sync="status.isLoading">
-      <template name="default">
-        <div class="lds-ripple"><div></div><div></div></div>
-      </template>
-    </loading>
     <div class="table-responsive-lg mb-3">
       <table class="table table-sm text-nowrap table-hover">
         <thead>

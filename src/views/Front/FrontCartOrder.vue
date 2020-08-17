@@ -1,18 +1,15 @@
 <template>
   <div>
-    <loading :active.sync="status.isLoading">
-      <template name="default">
-        <div class="lds-ripple"><div></div><div></div></div>
-      </template>
-    </loading>
-    <front-header :carts="carts" :nav-class="[ 'navbar-dark','bg-black' ]"
-    :cartCurrentNumber="cartCurrentNumber"
-    @delete-cart="deleteCart" @update-cart-qty="updateCartQty"/>
     <main class="container">
       <section class="l-section">
-        <h2 class="l-section__title" v-if="order.is_paid === false">付款確認</h2>
+        <h2 class="l-section__title" v-if="order.is_paid === false">
+          付款確認
+        </h2>
         <h2 class="l-section__title" v-else>付款完成</h2>
-        <div class="row justify-content-center" v-if="order.is_paid === false">
+        <div
+          class="row justify-content-center"
+          v-if="order.is_paid === false"
+        >
           <form class="col-md-10" @submit.prevent="payOrder">
             <table class="table d-none d-md-table table-hover">
               <thead class="thead-dark text-center">
@@ -36,12 +33,18 @@
               <tfoot>
                 <tr>
                   <td colspan="2" class="text-right">總計</td>
-                  <td class="text-right">{{ order.total | currency }}</td>
+                  <td class="text-right">
+                    {{ order.total | currency }}
+                  </td>
                 </tr>
               </tfoot>
             </table>
             <table class="table d-table d-md-none table-hover">
-              <tbody class="border-0" v-for="item in order.products" :key="item.id">
+              <tbody
+                class="border-0"
+                v-for="item in order.products"
+                :key="item.id"
+              >
                 <tr>
                   <td class="align-middle" colspan="2">
                     {{ item.product.title }}
@@ -59,7 +62,9 @@
               <tfoot>
                 <tr>
                   <td class="text-right">總計</td>
-                  <td class="text-right">{{ order.total | currency }}</td>
+                  <td class="text-right">
+                    {{ order.total | currency }}
+                  </td>
                 </tr>
               </tfoot>
             </table>
@@ -97,8 +102,7 @@
         </div>
         <div class="row justify-content-center" v-else>
           <div class="col-md-6">
-            <div class="l-sectionImage l-sectionImage--2">
-            </div>
+            <div class="l-sectionImage l-sectionImage--2"></div>
           </div>
           <div class="col-md-6">
             <table class="table">
@@ -130,8 +134,12 @@
               </tfoot>
             </table>
             <div class="text-right">
-              <router-link to="/" class="btn btn-outline-dark mr-3">返回首頁</router-link>
-              <router-link to="/category" class="btn btn-danger">繼續逛逛</router-link>
+              <router-link to="/" class="btn btn-outline-dark mr-3"
+                >返回首頁</router-link
+              >
+              <router-link to="/category" class="btn btn-danger"
+                >繼續逛逛</router-link
+              >
             </div>
           </div>
         </div>
@@ -141,15 +149,9 @@
 </template>
 
 <script>
-// mixins
-import cart from '@/mixins/cart';
-// components
-import FrontHeader from '@/components/Front/FrontHeader.vue';
-
 export default {
   name: 'FrontPay',
-  data(
-  ) {
+  data() {
     return {
       orderId: '',
       order: {
@@ -160,60 +162,35 @@ export default {
       },
     };
   },
-  components: {
-    FrontHeader,
-  },
-  mixins: [
-    cart,
-  ],
   methods: {
-    getOrder(
-    ) {
+    getOrder() {
       const vm = this;
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/order/${vm.orderId}`;
-      vm.$http.get(
-        api,
-      ).then(
-        (response) => {
-          if (response.data.success) {
-            vm.order = response.data.order;
-          }
-        },
-      );
+      vm.$http.get(api).then((response) => {
+        if (response.data.success) {
+          vm.order = response.data.order;
+        }
+      });
     },
-    payOrder(
-    ) {
+    payOrder() {
       const vm = this;
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/pay/${vm.orderId}`;
       vm.status.isLoading = true;
-      vm.$http.post(
-        api,
-      ).then(
-        (response) => {
-          if (response.data.success) {
-            vm.getOrder(
-            );
-            setTimeout(
-              (
-              ) => {
-                vm.status.isLoading = false;
-              }, 500,
-            );
-          }
-        },
-      );
+      vm.$http.post(api).then((response) => {
+        if (response.data.success) {
+          vm.getOrder();
+          setTimeout(() => {
+            vm.status.isLoading = false;
+          }, 500);
+        }
+      });
     },
   },
-  created(
-  ) {
+  created() {
     this.orderId = this.$route.params.orderId;
-    this.getOrder(
-    );
-    this.getCart(
-    );
+    this.getOrder();
   },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

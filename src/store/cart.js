@@ -21,7 +21,8 @@ export default {
         }
       });
     },
-    addToCart({ dispatch }, { id, qty = 1 }) {
+    addToCart({ commit, dispatch }, { id, qty = 1 }) {
+      commit('LOADING', true, { root: true });
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/cart`;
       const cart = {
         product_id: id,
@@ -33,7 +34,8 @@ export default {
         }
       });
     },
-    deleteCart({ dispatch }, id) {
+    deleteCart({ commit, dispatch }, id) {
+      commit('LOADING', true, { root: true });
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/cart/${id}`;
       axios.delete(api).then((response) => {
         if (response.data.success) {
@@ -41,29 +43,23 @@ export default {
         }
       });
     },
-    updateCartQty({ dispatch }, { addId, qty, deleteId }) {
-      let api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/cart`;
+    updateCartQty({ commit, dispatch }, { addId, qty, deleteId }) {
+      commit('LOADING', true, { root: true });
+      const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/cart`;
       const cart = {
         product_id: addId,
         qty,
       };
       axios.post(api, { data: cart }).then((responseA) => {
         if (responseA.data.success) {
-          api = `${api}/${deleteId}`;
-          axios.delete(api).then((responseB) => {
-            if (responseB.data.success) {
-              dispatch('getCart');
-            }
-          });
-          return;
+          dispatch('deleteCart', deleteId);
         }
-        dispatch('getCart');
       });
     },
   },
   getters: {
     cartsTotal(state) {
-      return state.carts.length;
+      return state.carts.carts.length;
     },
   },
 };

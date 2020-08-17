@@ -1,13 +1,5 @@
 <template>
   <div>
-    <loading :active.sync="status.isLoading">
-      <template name="default">
-        <div class="lds-ripple"><div></div><div></div></div>
-      </template>
-    </loading>
-    <front-header :carts="carts" :nav-class="[ 'navbar-dark','fixed-top' ]"
-    :cartCurrentNumber="cartCurrentNumber"
-    @delete-cart="deleteCart" @update-cart-qty="updateCartQty"/>
     <main>
       <front-hero :container-style="'height: 60vh'"/>
       <div class="container">
