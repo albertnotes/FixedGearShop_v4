@@ -52,7 +52,6 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
 .hero {
   background-image: url('~@/assets/images/frontHeroCategory.png');

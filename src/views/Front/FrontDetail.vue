@@ -2,9 +2,7 @@
   <div>
     <main class="container">
       <nav aria-label="breadcrumb">
-        <ol
-          class="breadcrumb bg-transparent border-bottom rounded-0 h5 mb-0"
-        >
+        <ol class="breadcrumb bg-transparent border-bottom rounded-0 h5 mb-0">
           <li class="breadcrumb-item">
             <router-link to="/">首頁</router-link>
           </li>
@@ -34,9 +32,7 @@
             <span class="fas fa-truck mr-3"></span>
             <span>免運費</span>
           </div>
-          <div
-            class="d-flex justify-content-between align-items-center py-3"
-          >
+          <div class="d-flex justify-content-between align-items-center py-3">
             <div>
               <h6 class="font-weight-bold" v-if="!product.price">
                 {{ product.origin_price | currency }}
@@ -47,20 +43,17 @@
               >
                 {{ product.origin_price | currency }}
               </del>
-              <h5
-                class="text-danger font-weight-bold"
-                v-if="product.price"
-              >
+              <h5 class="text-danger font-weight-bold" v-if="product.price">
                 {{ product.price | currency }}
               </h5>
             </div>
             <div class="text-muted">
               <span v-if="!product.price">
                 小計
-                {{ (product.origin_price * cartNumber) | currency }}
+                {{ (product.origin_price * qty) | currency }}
               </span>
               <span v-if="product.price">
-                小計 {{ (product.price * cartNumber) | currency }}
+                小計 {{ (product.price * qty) | currency }}
               </span>
             </div>
           </div>
@@ -72,21 +65,21 @@
             <div class="c-inputGroup mb-3 mr-md-3 mb-md-0">
               <button
                 class="btn c-inputGroup__minusBtn"
-                :disabled="cartNumber === 1"
-                @click="cartNumber--"
+                :disabled="qty== 1"
+                @click="qty--"
               >
                 <i class="fas fa-minus"></i>
               </button>
               <input
                 type="text"
                 class="form-control"
-                v-model="cartNumber"
+                v-model="qty"
                 disabled
               />
               <button
                 class="btn c-inputGroup__plusBtn"
-                :disabled="cartNumber === 10"
-                @click="cartNumber++"
+                :disabled="qty === 10"
+                @click="qty++"
               >
                 <i class="fas fa-plus"></i>
               </button>
@@ -94,7 +87,7 @@
             <button
               type="button"
               class="btn btn-danger px-4 w-100"
-              @click="addToCart(product.id, cartNumber)"
+              @click="addToCart(product.id, qty)"
             >
               加入購物車
             </button>
@@ -105,10 +98,7 @@
         <h2 class="l-section__title">其他產品</h2>
         <div class="col">
           <swiper class="swiper h-100" :options="swiperOptionMuch">
-            <swiper-slide
-              v-for="product in filterProducts"
-              :key="product.id"
-            >
+            <swiper-slide v-for="product in products" :key="product.id">
               <div class="card card--product">
                 <a
                   href="#"
@@ -118,30 +108,20 @@
                     updateDetailId();
                   "
                 >
-                  <img
-                    :src="product.imageUrl"
-                    alt=""
-                    class="img-fluid"
-                  />
+                  <img :src="product.imageUrl" alt="" class="img-fluid" />
                 </a>
                 <div class="card-body">
                   <h5 class="card-title text-truncate">
                     {{ product.title }}
                   </h5>
                   <div class="cardPrice">
-                    <span
-                      class="cardPrice__title"
-                      v-if="product.price"
-                    >
+                    <span class="cardPrice__title" v-if="product.price">
                       {{ product.price | currency }}
                     </span>
                     <span v-if="!product.price">
                       {{ product.origin_price | currency }}
                     </span>
-                    <del
-                      class="cardPrice__subtitle"
-                      v-if="product.price"
-                    >
+                    <del class="cardPrice__subtitle" v-if="product.price">
                       {{ product.origin_price | currency }}
                     </del>
                   </div>
@@ -174,9 +154,7 @@ export default {
   name: 'FrontDetail',
   data() {
     return {
-      status: {
-        isLoading: false,
-      },
+      qty: 1,
     };
   },
   mixins: [getProduct, getProducts, cart, toDetail, swiperData],
@@ -187,18 +165,19 @@ export default {
     },
   },
   computed: {
-    filterProducts() {
-      const vm = this;
-      const temp = [...this.allProducts];
-      const filter = temp.filter(
-        (element) => element.category === vm.product.category,
-      );
-      return filter;
+    products: {
+      get() {
+        return this.$store.getters['products/filteredProducts'];
+      },
     },
   },
-  created() {
+  mounted() {
+    this.$store.commit('HEADERSTATUS', 'bg-black');
     this.detailId = this.$route.params.detailId;
     this.getProduct(this.detailId);
+  },
+  beforeDestroy() {
+    this.$store.commit('HEADERSTATUS', '');
   },
 };
 </script>

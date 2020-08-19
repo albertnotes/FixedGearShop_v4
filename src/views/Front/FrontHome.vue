@@ -88,7 +88,11 @@
               type="button"
               class="btn btn-outline-primary"
               :class="{ active: !categoryProduct }"
-              @click.prevent="(categoryProduct = ''), getProducts()"
+              @click.prevent="
+                categoryProduct = '';
+                searchProduct = '';
+                getProducts();
+              "
             >
               所有產品
             </button>
@@ -97,7 +101,9 @@
               class="btn btn-outline-primary"
               :class="{ active: categoryProduct === category }"
               @click.prevent="
-                (categoryProduct = category), getProducts()
+                categoryProduct = category;
+                searchProduct = '';
+                getProducts();
               "
               v-for="(category, index) in categories"
               :key="index"
@@ -265,7 +271,6 @@
 </template>
 
 <script>
-
 // mixins
 import getProducts from '@/mixins/getProducts';
 import cart from '@/mixins/cart';
@@ -315,10 +320,7 @@ export default {
   },
   methods: {
     toCategory(category) {
-      // 避開 A 元件 轉 B 元件還未註冊監聽事件問題
-      setTimeout(() => {
-        this.$bus.$emit('message:category', category);
-      }, 500);
+      this.$store.commit('products/CATEGORYPRODUCT', category);
       this.$router.push('/category');
     },
     playedScrollObserver() {
@@ -350,7 +352,11 @@ export default {
     },
   },
   mounted() {
+    this.$store.commit('HEADERSTATUS', 'fixed-top');
     this.playedScrollObserver();
+  },
+  beforeDestroy() {
+    this.$store.commit('HEADERSTATUS', '');
   },
 };
 </script>

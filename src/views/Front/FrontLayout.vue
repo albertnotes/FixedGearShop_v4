@@ -16,6 +16,9 @@
 </template>
 
 <script>
+// mixins
+import getProducts from '@/mixins/getProducts';
+
 // components
 import SharedAlert from '@/components/Shared/SharedAlert.vue';
 import FrontHeader from '@/components/Front/FrontHeader.vue';
@@ -37,13 +40,11 @@ export default {
     FrontHeader,
     FrontFooter,
   },
+  mixins: [getProducts],
   methods: {
-    getProducts(page = 1) {
-      this.$store.dispatch('products/getProducts', page);
-    },
     ...mapActions('carts', ['getCart']),
   },
-  created() {
+  mounted() {
     this.getProducts();
     this.getCart();
   },

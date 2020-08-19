@@ -1,8 +1,8 @@
 <template>
   <header>
     <nav
-      class="navbar navbar-expand-md navbar-dark bg-black"
-      :class="[{ 'navbar--dark': scrolled }]"
+      class="navbar navbar-expand-md navbar-dark"
+      :class="[{ 'navbar--dark': scrolled }, headerStatus]"
     >
       <div class="container">
         <router-link class="navbar-brand mr-2" to="/">
@@ -17,7 +17,7 @@
             type="button"
             class="btn navbar-iconbtn shadow-none"
             data-toggle="modal"
-            data-target="#SigninModal"
+            data-target="#LoginModal"
           >
             <span class="fas fa-user-cog"></span>
           </button>
@@ -40,10 +40,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div
-          class="collapse navbar-collapse"
-          id="navbarSupportedContent"
-        >
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <router-link class="nav-link" to="/">首頁</router-link>
@@ -194,24 +191,14 @@
                 >
                   <tr>
                     <td class="align-middle" style="width: 40px;">
-                      <img
-                        :src="cart.product.imageUrl"
-                        alt=""
-                        width="40"
-                      />
+                      <img :src="cart.product.imageUrl" alt="" width="40" />
                     </td>
                     <td class="align-middle text-left" colspan="2">
-                      <span
-                        class="font-weight-bold"
-                        style="font-size: 14px;"
-                      >
+                      <span class="font-weight-bold" style="font-size: 14px;">
                         {{ cart.product.title }}
                       </span>
                       <br />
-                      <span
-                        v-if="cart.product.price"
-                        style="font-size: 14px;"
-                      >
+                      <span v-if="cart.product.price" style="font-size: 14px;">
                         {{ cart.product.price | currency }}
                       </span>
                       <span v-else style="font-size: 14px;">
@@ -225,10 +212,7 @@
                         已套用優惠券
                       </span>
                     </td>
-                    <td
-                      class="align-middle text-right"
-                      style="width: 35px;"
-                    >
+                    <td class="align-middle text-right" style="width: 35px;">
                       <button
                         type="button"
                         class="btn btn-outline-danger btn-sm"
@@ -239,10 +223,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td
-                      class="align-middle border-0 p-md-margin"
-                      colspan="2"
-                    >
+                    <td class="align-middle border-0 p-md-margin" colspan="2">
                       <div class="c-inputGroup">
                         <button
                           class="btn c-inputGroup__minusBtn"
@@ -278,10 +259,7 @@
                         </button>
                       </div>
                     </td>
-                    <td
-                      class="align-middle text-right border-0"
-                      colspan="2"
-                    >
+                    <td class="align-middle text-right border-0" colspan="2">
                       {{ cart.final_total | currency }}
                     </td>
                   </tr>
@@ -315,9 +293,7 @@
                 :src="require('@/assets/images/first-bike-gif.gif')"
                 alt=""
               />
-              <h5 class="font-weight-bold">
-                購物車目前沒有內容<br />
-              </h5>
+              <h5 class="font-weight-bold">購物車目前沒有內容<br /></h5>
               <router-link
                 to="/category"
                 class="btn btn-danger"
@@ -348,16 +324,16 @@
     <!-- Signin Modal -->
     <div
       class="modal fade"
-      id="SigninModal"
+      id="LoginModal"
       tabindex="-1"
       role="dialog"
-      aria-labelledby="SigninModalLabel"
+      aria-labelledby="LoginModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog" role="document">
         <div class="modal-content bg-dark text-white">
           <div class="modal-header border-0">
-            <h5 class="modal-title" id="SigninModalLabel">
+            <h5 class="modal-title" id="LoginModalLabel">
               登入介面
             </h5>
             <button
@@ -401,10 +377,7 @@
                   <input type="checkbox" value="remember-me" /> 記住我
                 </label>
               </div>
-              <button
-                class="btn btn-lg btn-danger btn-block"
-                type="submit"
-              >
+              <button class="btn btn-lg btn-danger btn-block" type="submit">
                 登入
               </button>
             </form>
@@ -441,6 +414,11 @@ export default {
         return this.carts.carts ? this.carts.carts.length : '';
       },
     },
+    headerStatus: {
+      get() {
+        return this.$store.state.headerStatus;
+      },
+    },
   },
   mixins: [cart],
   methods: {
@@ -450,14 +428,10 @@ export default {
       vm.$http.post(api, vm.user).then((response) => {
         if (response.data.success) {
           vm.$router.push('/dashboard');
-          $('#SigninModal').modal('hide');
+          $('#LoginModal').modal('hide');
         } else {
-          vm.$bus.$emit(
-            'message:push',
-            response.data.message,
-            'danger',
-          );
-          $('#SigninModal').modal('hide');
+          vm.$bus.$emit('message:push', response.data.message, 'danger');
+          $('#LoginModal').modal('hide');
         }
       });
     },
@@ -487,14 +461,17 @@ export default {
   }
 }
 
+.navbar {
+  transition: all 0.5s ease;
+}
+
 .navbar.navbar--dark {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 99;
-  background-color: rgba(black, 0.9);
-  transition: all 0.5s ease;
+  background-color: black;
 }
 .formSignin {
   width: 100%;

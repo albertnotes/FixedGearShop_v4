@@ -1,13 +1,14 @@
 <template>
   <div>
     <main class="container">
-      <section class="l-section" v-if="cartCurrentNumber > 0">
+      <section
+        class="l-section"
+        v-if="carts.carts ? carts.carts.length : false"
+      >
         <h2 class="l-section__title">購物車內容</h2>
         <div class="row justify-content-center">
           <div class="col-md-10">
-            <table
-              class="table d-none d-md-table table-hover text-center"
-            >
+            <table class="table d-none d-md-table table-hover text-center">
               <thead class="thead-dark text-nowrap">
                 <th style="width: 5%">刪除</th>
                 <th>品名</th>
@@ -38,12 +39,7 @@
                         class="btn c-inputGroup__minusBtn"
                         :disabled="cart.qty === 1"
                         @click="
-                          cart.qty--;
-                          updateCartQty(
-                            cart.product_id,
-                            cart.qty,
-                            cart.id
-                          );
+                          updateCartQty(cart.product_id, cart.qty - 1, cart.id)
                         "
                       >
                         <i class="fas fa-minus"></i>
@@ -58,12 +54,7 @@
                         class="btn c-inputGroup__plusBtn"
                         :disabled="cart.qty === 10"
                         @click="
-                          cart.qty++;
-                          updateCartQty(
-                            cart.product_id,
-                            cart.qty,
-                            cart.id
-                          );
+                          updateCartQty(cart.product_id, cart.qty + 1, cart.id)
                         "
                       >
                         <i class="fas fa-plus"></i>
@@ -95,9 +86,7 @@
                 </tr>
               </tfoot>
             </table>
-            <table
-              class="table d-table d-md-none table-hover text-center"
-            >
+            <table class="table d-table d-md-none table-hover text-center">
               <tbody
                 class="border-0"
                 v-for="(cart, key) in carts.carts"
@@ -105,24 +94,14 @@
               >
                 <tr>
                   <td class="align-middle" style="width: 40px;">
-                    <img
-                      :src="cart.product.imageUrl"
-                      alt=""
-                      width="40"
-                    />
+                    <img :src="cart.product.imageUrl" alt="" width="40" />
                   </td>
                   <td class="align-middle text-left" colspan="2">
-                    <span
-                      class="font-weight-bold"
-                      style="font-size: 14px;"
-                    >
+                    <span class="font-weight-bold" style="font-size: 14px;">
                       {{ cart.product.title }}
                     </span>
                     <br />
-                    <span
-                      v-if="cart.product.price"
-                      style="font-size: 14px;"
-                    >
+                    <span v-if="cart.product.price" style="font-size: 14px;">
                       {{ cart.product.price | currency }}
                     </span>
                     <span v-else style="font-size: 14px;">
@@ -136,10 +115,7 @@
                       已套用優惠券
                     </span>
                   </td>
-                  <td
-                    class="align-middle text-right"
-                    style="width: 35px;"
-                  >
+                  <td class="align-middle text-right" style="width: 35px;">
                     <button
                       type="button"
                       class="btn btn-outline-danger btn-sm"
@@ -150,21 +126,14 @@
                   </td>
                 </tr>
                 <tr>
-                  <td
-                    class="align-middle border-0 p-md-margin"
-                    colspan="2"
-                  >
+                  <td class="align-middle border-0 p-md-margin" colspan="2">
                     <div class="c-inputGroup">
                       <button
                         class="btn c-inputGroup__minusBtn"
                         :disabled="cart.qty === 1"
                         @click="
                           cart.qty--;
-                          updateCartQty(
-                            cart.product_id,
-                            cart.qty,
-                            cart.id
-                          );
+                          updateCartQty(cart.product_id, cart.qty, cart.id);
                         "
                       >
                         <i class="fas fa-minus"></i>
@@ -180,21 +149,14 @@
                         :disabled="cart.qty === 10"
                         @click="
                           cart.qty++;
-                          updateCartQty(
-                            cart.product_id,
-                            cart.qty,
-                            cart.id
-                          );
+                          updateCartQty(cart.product_id, cart.qty, cart.id);
                         "
                       >
                         <i class="fas fa-plus"></i>
                       </button>
                     </div>
                   </td>
-                  <td
-                    class="align-middle text-right border-0"
-                    colspan="2"
-                  >
+                  <td class="align-middle text-right border-0" colspan="2">
                     {{ cart.final_total | currency }}
                   </td>
                 </tr>
@@ -237,7 +199,7 @@
           </div>
         </div>
       </section>
-      <section class="l-section" v-if="cartCurrentNumber > 0">
+      <section class="l-section" v-if="carts.carts ? carts.carts.length : true">
         <h2 class="l-section__title">結帳表單</h2>
         <div class="row justify-content-center">
           <ValidationObserver class="col-md-10" v-slot="{ invalid }">
@@ -261,13 +223,8 @@
                 </ValidationProvider>
               </div>
               <div class="form-group">
-                <label for="username"
-                  >收件人姓名 <span>*</span></label
-                >
-                <ValidationProvider
-                  name="姓名"
-                  v-slot="{ errors, classes }"
-                >
+                <label for="username">收件人姓名 <span>*</span></label>
+                <ValidationProvider name="姓名" v-slot="{ errors, classes }">
                   <input
                     type="text"
                     class="form-control"
@@ -286,9 +243,7 @@
                   :rules="{ regex: /[0-9]{9}/ }"
                   v-slot="{ errors, classes }"
                 >
-                  <label for="usertel"
-                    >收件人電話 <span>*</span></label
-                  >
+                  <label for="usertel">收件人電話 <span>*</span></label>
                   <input
                     type="tel"
                     class="form-control"
@@ -302,13 +257,8 @@
                 </ValidationProvider>
               </div>
               <div class="form-group">
-                <label for="useraddress"
-                  >收件人地址 <span>*</span></label
-                >
-                <ValidationProvider
-                  name="地址"
-                  v-slot="{ errors, classes }"
-                >
+                <label for="useraddress">收件人地址 <span>*</span></label>
+                <ValidationProvider name="地址" v-slot="{ errors, classes }">
                   <input
                     type="text"
                     class="form-control"
@@ -361,9 +311,7 @@
                 :src="require('@/assets/images/first-bike-gif.gif')"
                 alt=""
               />
-              <h5 class="font-weight-bold">
-                購物車目前沒有內容<br />
-              </h5>
+              <h5 class="font-weight-bold">購物車目前沒有內容<br /></h5>
               <router-link
                 to="/category"
                 class="btn btn-danger"
@@ -383,19 +331,23 @@
 // mixins
 import cart from '@/mixins/cart';
 import cartOrder from '@/mixins/cartOrder';
-// components
-import FrontHeader from '@/components/Front/FrontHeader.vue';
 
 export default {
   name: 'FrontCheckout',
-  data() {
-    return {
-      status: {
-        isLoading: false,
+  computed: {
+    carts: {
+      get() {
+        return this.$store.state.carts.carts;
       },
-    };
+    },
   },
   mixins: [cart, cartOrder],
+  mounted() {
+    this.$store.commit('HEADERSTATUS', 'bg-black');
+  },
+  beforeDestroy() {
+    this.$store.commit('HEADERSTATUS', '');
+  },
 };
 </script>
 

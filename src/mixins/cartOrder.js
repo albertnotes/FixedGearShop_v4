@@ -22,9 +22,9 @@ export default {
       };
       vm.$http.post(api, { data: coupon }).then((response) => {
         if (response.data.success) {
-          vm.getCart();
+          vm.$store.dispatch('carts/getCart');
         } else {
-          vm.getCart();
+          vm.$store.dispatch('carts/getCart');
           vm.$bus.$emit(
             'message:push',
             response.data.message,

@@ -7,7 +7,10 @@ export default {
     products: [],
     searchProduct: '',
     categoryProduct: '',
-    pagination: {},
+    pagination: {
+      eachPageItem: 8,
+      currentPage: 1,
+    },
   },
   mutations: {
     ALLPRODUCTS(state, payload) {
@@ -22,19 +25,11 @@ export default {
     CATEGORYPRODUCT(state, categories) {
       state.categoryProduct = categories;
     },
-    PAGINATION(state, page) {
-      const pageSetting = {
-        currentPage: page,
-        hasPre: false,
-        hasNext: false,
-        eachPageItem: 8,
-        total_pages: '',
-      };
-      const allPageItem = state.allProducts.length;
-      pageSetting.total_pages = Math.ceil(allPageItem / pageSetting.eachPageItem);
-      pageSetting.hasPre = pageSetting.currentPage > 1;
-      pageSetting.hasNext = pageSetting.currentPage < pageSetting.total_pages;
-      state.pagination = pageSetting;
+    EACHPAGEITEM(state, item) {
+      state.pagination.eachPageItem = Number(item);
+    },
+    CURRENTPAGE(state, page) {
+      state.pagination.currentPage = Number(page);
     },
   },
   actions: {
@@ -49,7 +44,7 @@ export default {
           }
         })
         .then(() => {
-          commit('PAGINATION', page);
+          commit('CURRENTPAGE', page);
           commit('LOADING', false, { root: true });
         });
     },
@@ -68,8 +63,23 @@ export default {
       }
       return state.allProducts;
     },
+    pagination(state) {
+      const allPageItem = state.allProducts.length;
+      const { eachPageItem, currentPage } = state.pagination;
+      const setting = {
+        eachPageItem,
+        currentPage,
+        totalPages: 0,
+        hasPre: false,
+        hasNext: false,
+      };
+      setting.totalPages = Math.ceil(allPageItem / setting.eachPageItem);
+      setting.hasPre = setting.currentPage > 1;
+      setting.hasNext = setting.currentPage < setting.totalPages;
+      return setting;
+    },
     paginationProducts(state, getters) {
-      const { currentPage, eachPageItem } = state.pagination;
+      const { currentPage, eachPageItem } = getters.pagination;
       const minPageItem = currentPage * eachPageItem - eachPageItem + 1;
       const maxPageItem = currentPage * eachPageItem;
       return getters.filteredProducts.filter((element, index) => {

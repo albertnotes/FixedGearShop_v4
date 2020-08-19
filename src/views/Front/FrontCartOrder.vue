@@ -186,9 +186,13 @@ export default {
       });
     },
   },
-  created() {
+  mounted() {
     this.orderId = this.$route.params.orderId;
     this.getOrder();
+    this.$store.commit('HEADERSTATUS', 'bg-black');
+  },
+  beforeDestroy() {
+    this.$store.commit('HEADERSTATUS', '');
   },
 };
 </script>

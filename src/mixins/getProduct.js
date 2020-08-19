@@ -12,22 +12,18 @@ export default {
     getProduct(id) {
       const vm = this;
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/product/${id}`;
-      vm.status.isLoading = true;
+      vm.$store.commit('LOADING', true);
       vm.$http.get(api).then((response) => {
         if (response.data.success) {
           vm.product = response.data.product;
-          setTimeout(() => {
-            vm.status.isLoading = false;
-          }, 500);
+          vm.$store.commit('LOADING', false);
         } else {
           vm.$bus.$emit(
             'message:push',
             response.data.message,
             'danger',
           );
-          setTimeout(() => {
-            vm.status.isLoading = false;
-          }, 500);
+          vm.$store.commit('LOADING', false);
         }
       });
     },
