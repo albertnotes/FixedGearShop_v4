@@ -2,7 +2,7 @@
   <div>
     <main>
       <keep-alive>
-        <front-home-video :container-style="'height: 70vh'" />
+        <front-home-video :container-style="'height: 100vh'" />
       </keep-alive>
       <section class="container l-section">
         <h2 class="l-section__title">
