@@ -1,7 +1,5 @@
 # FixedGearShop_v4
 
->該專案是練習 Vue.js 前端電商應用( *VueCLI_v4* )
-
 ## DEMO
 
 > https://albertnotes.github.io/FixedGearShop_v4/#/
