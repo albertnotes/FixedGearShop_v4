@@ -164,7 +164,7 @@ export default {
   name: 'FrontCategory',
   data() {
     return {
-      selectedEachPageItem: 8,
+      selectedEachPageItem: this.$store.state.products.pagination.eachPageItem,
     };
   },
   computed: {
