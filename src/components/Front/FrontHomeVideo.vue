@@ -27,6 +27,12 @@ export default {
       desktopShow: window.screen.width >= 768,
     };
   },
+  created() {
+    this.$store.commit('LOADING', true);
+  },
+  mounted() {
+    this.$store.commit('LOADING', false);
+  },
 };
 </script>
 
