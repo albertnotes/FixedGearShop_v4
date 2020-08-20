@@ -62,7 +62,7 @@
         </tbody>
       </table>
     </div>
-    <shared-pagination :pagesData="pagination" @current-page="getProducts" />
+    <shared-pagination :pagesData="pagination" />
     <!-- Modal -->
     <div
       class="modal fade"
@@ -312,10 +312,32 @@ export default {
       tempProduct: {},
       isNew: false,
       status: {
-        isLoading: false,
         fileUploading: false,
       },
     };
+  },
+  computed: {
+    products: {
+      get() {
+        return this.$store.getters['products/paginationProducts'];
+      },
+    },
+    pagination: {
+      get() {
+        return this.$store.getters['products/pagination'];
+      },
+      set(val) {
+        this.$store.commit('products/EACH_PAGE_ITEM', val);
+      },
+    },
+    searchProduct: {
+      get() {
+        return this.$store.state.products.searchProduct;
+      },
+      set(val) {
+        this.$store.commit('products/SEARCH_PRODUCT', val);
+      },
+    },
   },
   components: {
     SharedPagination,
@@ -405,7 +427,7 @@ export default {
         });
     },
   },
-  created() {
+  mounted() {
     this.getProducts();
   },
 };

@@ -391,6 +391,8 @@
 <script>
 import $ from 'jquery';
 import cart from '@/mixin/cart';
+// Vuex
+import { mapActions } from 'vuex';
 
 export default {
   name: 'FrontHeader',
@@ -444,8 +446,10 @@ export default {
       }
       this.scrolled = currentScrollPosition > 1;
     },
+    ...mapActions('carts', ['getCart']),
   },
   mounted() {
+    this.getCart();
     window.addEventListener('scroll', this.onScroll);
   },
   beforeDestroy() {

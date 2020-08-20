@@ -257,10 +257,8 @@ export default {
     return {
       coupons: [],
       tempCoupon: {},
-      pagination: {},
       isNew: false,
       status: {
-        isLoading: false,
         fileUploading: false,
       },
       due_date: '', // 轉換時間
@@ -275,6 +273,16 @@ export default {
       vm.tempCoupon.due_date = timestamp;
     },
   },
+  computed: {
+    pagination: {
+      get() {
+        return this.$store.getters['products/pagination'];
+      },
+      set(val) {
+        this.$store.commit('products/EACH_PAGE_ITEM', val);
+      },
+    },
+  },
   components: {
     SharedPagination,
     Datepicker,
@@ -282,15 +290,19 @@ export default {
   methods: {
     getCoupon(page = 1) {
       const vm = this;
-      vm.status.isLoading = true;
+      vm.$store.commit('LOADING', true);
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/coupons?page=${page}`;
       vm.$http.get(api).then((response) => {
         if (response.data.success) {
           vm.coupons = response.data.coupons;
           vm.pagination = response.data.pagination;
-          setTimeout(() => {
-            vm.status.isLoading = false;
-          }, 500);
+          vm.$store.commit('LOADING', false);
+        } else {
+          vm.$store.commit('LOADING', false);
+          vm.$store.dispatch('updateMessage', {
+            message: response.data.message,
+            status: 'danger',
+          });
         }
       });
     },
@@ -356,7 +368,7 @@ export default {
       this.due_date = date;
     },
   },
-  created() {
+  mounted() {
     this.getCoupon(); // init
   },
 };

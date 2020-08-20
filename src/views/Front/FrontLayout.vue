@@ -24,9 +24,6 @@ import SharedAlert from '@/components/Shared/SharedAlert.vue';
 import FrontHeader from '@/components/Front/FrontHeader.vue';
 import FrontFooter from '@/components/Front/FrontFooter.vue';
 
-// Vuex
-import { mapActions } from 'vuex';
-
 export default {
   computed: {
     isloading: {
@@ -41,12 +38,8 @@ export default {
     FrontFooter,
   },
   mixins: [getProducts],
-  methods: {
-    ...mapActions('carts', ['getCart']),
-  },
   mounted() {
     this.getProducts();
-    this.getCart();
   },
 };
 </script>

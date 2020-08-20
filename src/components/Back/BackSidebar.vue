@@ -1,8 +1,10 @@
 <template>
   <nav class="col-md-2 d-none d-md-block sidebar">
     <div class="sidebar-sticky">
-      <h6 class="sidebar-heading d-flex justify-content-between
-      align-items-center px-3 mb-1 text-muted">
+      <h6
+        class="sidebar-heading d-flex justify-content-between
+      align-items-center px-3 mb-1 text-muted"
+      >
         <span>管理員</span>
       </h6>
       <ul class="nav flex-column">
@@ -33,28 +35,21 @@
 export default {
   name: 'BackSidebar',
   methods: {
-    signout(
-    ) {
+    signout() {
       const api = `${process.env.VUE_APP_API_PATH}/logout`;
       const vm = this;
-      vm.$http.post(
-        api,
-      ).then(
-        (response) => {
-          if (response.data.success) {
-            vm.$router.push(
-              '/',
-            );
-          }
-        },
-      );
+      vm.$http.post(api).then((response) => {
+        if (response.data.success) {
+          vm.$router.push('/');
+        }
+      });
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  /*
+/*
  * Sidebar
  */
 
@@ -66,14 +61,14 @@ export default {
   z-index: 100; /* Behind the navbar */
   padding: 48px 0 0; /* Height of navbar */
   background-color: #f8f9fa;
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-sticky {
   position: relative;
   top: 0;
   height: calc(100vh - 48px);
-  padding-top: .5rem;
+  padding-top: 0.5rem;
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
@@ -90,14 +85,13 @@ export default {
   color: #333;
 }
 
-.sidebar .nav-link.active{
+.sidebar .nav-link.active {
   color: #20c997;
   font-weight: 700;
 }
 
 .sidebar-heading {
-  font-size: .75rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
 }
-
 </style>

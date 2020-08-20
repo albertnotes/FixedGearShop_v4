@@ -22,6 +22,7 @@
 </template>
 
 <script>
+
 import BackHeader from '@/components/Back/BackHeader.vue';
 import BackSidebar from '@/components/Back/BackSidebar.vue';
 import SharedAlert from '@/components/Shared/SharedAlert.vue';

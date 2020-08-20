@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     currentPage(page) {
-      this.$store.commit('products/CURRENTPAGE', page);
+      this.$store.commit('products/CURRENT_PAGE', page);
     },
   },
 };
