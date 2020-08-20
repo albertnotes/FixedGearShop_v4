@@ -44,29 +44,33 @@ export default {
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/cart/${id}`;
       axios.delete(api).then((response) => {
         if (response.data.success) {
-          dispatch('getCart').then(() => {
-            dispatch('updateMessage', {
-              message: response.data.message,
-              status: 'danger',
-            }, { root: true });
-          });
+          dispatch('updateMessage', {
+            message: response.data.message,
+            status: 'danger',
+          }, { root: true });
+          commit('LOADING', false, { root: true });
         }
       });
     },
     updateCartQty({ commit, dispatch }, { addId, qty, deleteId }) {
       commit('LOADING', true, { root: true });
-      const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/cart`;
+      let api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/cart`;
       const cart = {
         product_id: addId,
         qty,
       };
-      axios.post(api, { data: cart }).then((response) => {
-        if (response.data.success) {
-          dispatch('deleteCart', deleteId).then(() => {
-            dispatch('updateMessage', {
-              message: '數量已更新',
-              status: 'success',
-            }, { root: true });
+      axios.post(api, { data: cart }).then((responseA) => {
+        if (responseA.data.success) {
+          api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/cart/${deleteId}`;
+          axios.delete(api).then((response) => {
+            if (response.data.success) {
+              dispatch('getCart').then(() => {
+                dispatch('updateMessage', {
+                  message: '數量已更新',
+                  status: 'success',
+                }, { root: true });
+              });
+            }
           });
         } else {
           dispatch('updateMessage', {
