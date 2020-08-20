@@ -144,11 +144,11 @@
 
 <script>
 // mixins
-import getProduct from '@/mixins/getProduct';
-import getProducts from '@/mixins/getProducts';
-import cart from '@/mixins/cart';
-import toDetail from '@/mixins/toDetail';
-import swiperData from '@/mixins/swiperData';
+import getProduct from '@/mixin/getProduct';
+import getProducts from '@/mixin/getProducts';
+import cart from '@/mixin/cart';
+import toDetail from '@/mixin/toDetail';
+import swiperData from '@/mixin/swiperData';
 
 export default {
   name: 'FrontDetail',
@@ -172,12 +172,12 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit('HEADERSTATUS', 'bg-black');
+    this.$store.commit('HEADER_STATUS', 'bg-black');
     this.detailId = this.$route.params.detailId;
     this.getProduct(this.detailId);
   },
   beforeDestroy() {
-    this.$store.commit('HEADERSTATUS', '');
+    this.$store.commit('HEADER_STATUS', '');
   },
 };
 </script>

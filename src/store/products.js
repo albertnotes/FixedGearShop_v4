@@ -13,22 +13,22 @@ export default {
     },
   },
   mutations: {
-    ALLPRODUCTS(state, payload) {
+    ALL_PRODUCTS(state, payload) {
       state.allProducts = payload;
     },
     PRODUCTS(state, payload) {
       state.products = payload;
     },
-    SEARCHPRODUCT(state, searched) {
+    SEARCH_PRODUCT(state, searched) {
       state.searchProduct = searched;
     },
-    CATEGORYPRODUCT(state, categories) {
+    CATEGORY_PRODUCT(state, categories) {
       state.categoryProduct = categories;
     },
-    EACHPAGEITEM(state, item) {
+    EACH_PAGE_ITEM(state, item) {
       state.pagination.eachPageItem = Number(item);
     },
-    CURRENTPAGE(state, page) {
+    CURRENT_PAGE(state, page) {
       state.pagination.currentPage = Number(page);
     },
   },
@@ -40,11 +40,11 @@ export default {
         .get(api)
         .then((response) => {
           if (response.data.success) {
-            commit('ALLPRODUCTS', response.data.products);
+            commit('ALL_PRODUCTS', response.data.products);
           }
         })
         .then(() => {
-          commit('CURRENTPAGE', page);
+          commit('CURRENT_PAGE', page);
           commit('LOADING', false, { root: true });
         });
     },

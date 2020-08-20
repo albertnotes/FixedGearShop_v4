@@ -1,7 +1,3 @@
-/**
- * 使用請注意 data 衝突
- */
-
 export default {
   data() {
     return {
@@ -18,12 +14,11 @@ export default {
           vm.product = response.data.product;
           vm.$store.commit('LOADING', false);
         } else {
-          vm.$bus.$emit(
-            'message:push',
-            response.data.message,
-            'danger',
-          );
           vm.$store.commit('LOADING', false);
+          vm.$store.dispatch('updateMessage', {
+            message: response.data.message,
+            status: 'danger',
+          });
         }
       });
     },

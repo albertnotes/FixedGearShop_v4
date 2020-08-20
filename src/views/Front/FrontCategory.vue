@@ -154,8 +154,8 @@
 
 <script>
 // mixins
-import cart from '@/mixins/cart';
-import toDetail from '@/mixins/toDetail';
+import cart from '@/mixin/cart';
+import toDetail from '@/mixin/toDetail';
 // components
 import FrontHero from '@/components/Front/FrontHero.vue';
 import SharedPagination from '@/components/Shared/SharedPagination.vue';
@@ -183,7 +183,7 @@ export default {
         return this.$store.getters['products/pagination'];
       },
       set(val) {
-        this.$store.commit('products/EACHPAGEITEM', val);
+        this.$store.commit('products/EACH_PAGE_ITEM', val);
       },
     },
     searchProduct: {
@@ -191,7 +191,7 @@ export default {
         return this.$store.state.products.searchProduct;
       },
       set(val) {
-        this.$store.commit('products/SEARCHPRODUCT', val);
+        this.$store.commit('products/SEARCH_PRODUCT', val);
       },
     },
     categoryProduct: {
@@ -199,7 +199,7 @@ export default {
         return this.$store.state.products.categoryProduct;
       },
       set(val) {
-        this.$store.commit('products/CATEGORYPRODUCT', val);
+        this.$store.commit('products/CATEGORY_PRODUCT', val);
       },
     },
   },
@@ -209,10 +209,10 @@ export default {
     SharedPagination,
   },
   mounted() {
-    this.$store.commit('HEADERSTATUS', 'fixed-top');
+    this.$store.commit('HEADER_STATUS', 'fixed-top');
   },
   beforeDestroy() {
-    this.$store.commit('HEADERSTATUS', '');
+    this.$store.commit('HEADER_STATUS', '');
   },
 };
 </script>

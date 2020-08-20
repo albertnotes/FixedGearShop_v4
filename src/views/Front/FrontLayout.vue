@@ -17,7 +17,7 @@
 
 <script>
 // mixins
-import getProducts from '@/mixins/getProducts';
+import getProducts from '@/mixin/getProducts';
 
 // components
 import SharedAlert from '@/components/Shared/SharedAlert.vue';

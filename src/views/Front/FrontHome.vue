@@ -272,10 +272,10 @@
 
 <script>
 // mixins
-import getProducts from '@/mixins/getProducts';
-import cart from '@/mixins/cart';
-import toDetail from '@/mixins/toDetail';
-import swiperData from '@/mixins/swiperData';
+import getProducts from '@/mixin/getProducts';
+import cart from '@/mixin/cart';
+import toDetail from '@/mixin/toDetail';
+import swiperData from '@/mixin/swiperData';
 
 // components
 import FrontHomeVideo from '@/components/Front/FrontHomeVideo.vue';
@@ -287,9 +287,6 @@ export default {
   name: 'FrontHome',
   data() {
     return {
-      status: {
-        isLoading: false,
-      },
       videoshow: true, // 預設顯示
     };
   },
@@ -309,7 +306,7 @@ export default {
         return this.$store.state.products.categoryProduct;
       },
       set(val) {
-        this.$store.commit('products/CATEGORYPRODUCT', val);
+        this.$store.commit('products/CATEGORY_PRODUCT', val);
       },
     },
   },
@@ -320,7 +317,7 @@ export default {
   },
   methods: {
     toCategory(category) {
-      this.$store.commit('products/CATEGORYPRODUCT', category);
+      this.$store.commit('products/CATEGORY_PRODUCT', category);
       this.$router.push('/category');
     },
     playedScrollObserver() {
@@ -352,11 +349,11 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit('HEADERSTATUS', 'fixed-top');
+    this.$store.commit('HEADER_STATUS', 'fixed-top');
     this.playedScrollObserver();
   },
   beforeDestroy() {
-    this.$store.commit('HEADERSTATUS', '');
+    this.$store.commit('HEADER_STATUS', '');
   },
 };
 </script>

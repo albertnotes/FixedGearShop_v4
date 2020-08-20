@@ -25,11 +25,10 @@ export default {
           vm.$store.dispatch('carts/getCart');
         } else {
           vm.$store.dispatch('carts/getCart');
-          vm.$bus.$emit(
-            'message:push',
-            response.data.message,
-            'danger',
-          );
+          vm.$store.dispatch('updateMessage', {
+            message: response.data.message,
+            status: 'danger',
+          });
         }
       });
     },

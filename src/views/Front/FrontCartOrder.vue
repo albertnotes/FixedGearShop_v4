@@ -157,9 +157,6 @@ export default {
       order: {
         user: '',
       },
-      status: {
-        isLoading: false,
-      },
     };
   },
   methods: {
@@ -175,13 +172,11 @@ export default {
     payOrder() {
       const vm = this;
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/pay/${vm.orderId}`;
-      vm.status.isLoading = true;
+      vm.$store.commit('LOADING', true);
       vm.$http.post(api).then((response) => {
         if (response.data.success) {
           vm.getOrder();
-          setTimeout(() => {
-            vm.status.isLoading = false;
-          }, 500);
+          vm.$store.commit('LOADING', false);
         }
       });
     },
@@ -189,10 +184,10 @@ export default {
   mounted() {
     this.orderId = this.$route.params.orderId;
     this.getOrder();
-    this.$store.commit('HEADERSTATUS', 'bg-black');
+    this.$store.commit('HEADER_STATUS', 'bg-black');
   },
   beforeDestroy() {
-    this.$store.commit('HEADERSTATUS', '');
+    this.$store.commit('HEADER_STATUS', '');
   },
 };
 </script>

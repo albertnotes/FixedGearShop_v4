@@ -390,7 +390,7 @@
 
 <script>
 import $ from 'jquery';
-import cart from '@/mixins/cart';
+import cart from '@/mixin/cart';
 
 export default {
   name: 'FrontHeader',
@@ -430,7 +430,7 @@ export default {
           vm.$router.push('/dashboard');
           $('#LoginModal').modal('hide');
         } else {
-          vm.$bus.$emit('message:push', response.data.message, 'danger');
+          vm.openMessage(response.data.message, 'danger');
           $('#LoginModal').modal('hide');
         }
       });

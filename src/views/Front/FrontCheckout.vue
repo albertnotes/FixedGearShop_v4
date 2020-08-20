@@ -329,8 +329,8 @@
 
 <script>
 // mixins
-import cart from '@/mixins/cart';
-import cartOrder from '@/mixins/cartOrder';
+import cart from '@/mixin/cart';
+import cartOrder from '@/mixin/cartOrder';
 
 export default {
   name: 'FrontCheckout',
@@ -343,10 +343,10 @@ export default {
   },
   mixins: [cart, cartOrder],
   mounted() {
-    this.$store.commit('HEADERSTATUS', 'bg-black');
+    this.$store.commit('HEADER_STATUS', 'bg-black');
   },
   beforeDestroy() {
-    this.$store.commit('HEADERSTATUS', '');
+    this.$store.commit('HEADER_STATUS', '');
   },
 };
 </script>

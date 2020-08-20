@@ -30,7 +30,12 @@ export default {
       };
       axios.post(api, { data: cart }).then((response) => {
         if (response.data.success) {
-          dispatch('getCart');
+          dispatch('getCart').then(() => {
+            dispatch('updateMessage', {
+              message: response.data.message,
+              status: 'success',
+            }, { root: true });
+          });
         }
       });
     },
@@ -39,7 +44,12 @@ export default {
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/cart/${id}`;
       axios.delete(api).then((response) => {
         if (response.data.success) {
-          dispatch('getCart');
+          dispatch('getCart').then(() => {
+            dispatch('updateMessage', {
+              message: response.data.message,
+              status: 'danger',
+            }, { root: true });
+          });
         }
       });
     },
@@ -50,9 +60,19 @@ export default {
         product_id: addId,
         qty,
       };
-      axios.post(api, { data: cart }).then((responseA) => {
-        if (responseA.data.success) {
-          dispatch('deleteCart', deleteId);
+      axios.post(api, { data: cart }).then((response) => {
+        if (response.data.success) {
+          dispatch('deleteCart', deleteId).then(() => {
+            dispatch('updateMessage', {
+              message: '數量已更新',
+              status: 'success',
+            }, { root: true });
+          });
+        } else {
+          dispatch('updateMessage', {
+            message: '數量更新失敗',
+            status: 'danger',
+          }, { root: true });
         }
       });
     },

@@ -10,11 +10,11 @@ import 'swiper/css/swiper.css';
 
 import App from './App.vue';
 import router from './router';
-import './bus';
 import './vee-validate';
 import currencyFilter from './filters/currency';
 import date from './filters/date';
 import store from './store';
+import setAlertMessageMixin from './mixin/setAlertMessage';
 
 Vue.use(VueAwesomeSwiper);
 Vue.use(VueAxios, axios);
@@ -23,6 +23,7 @@ Vue.component('Loading', Loading);
 Vue.filter('currency', currencyFilter);
 Vue.filter('date', date);
 Vue.config.productionTip = false;
+Vue.mixin(setAlertMessageMixin);
 
 new Vue({
   router,

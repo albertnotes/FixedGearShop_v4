@@ -10,7 +10,7 @@
       <button
         type="button"
         class="close"
-        @click="removeMessage(i)"
+        @click="messages = i"
         aria-label="Close"
       >
         <span aria-hidden="true">&times;</span>
@@ -22,47 +22,15 @@
 <script>
 export default {
   name: 'SharedAlert',
-  data() {
-    return {
-      messages: [],
-    };
-  },
-  methods: {
-    updateMessage(message, status) {
-      const timestamp = Math.floor(new Date() / 1000);
-      this.messages.push({
-        message,
-        status,
-        timestamp,
-      });
-      this.removeMessageWithTiming(timestamp);
+  computed: {
+    messages: {
+      get() {
+        return this.$store.state.alertMessage;
+      },
+      set(num) {
+        this.$store.commit('DELETE_MESSAGE', num);
+      },
     },
-    removeMessage(num) {
-      this.messages.splice(num, 1);
-    },
-    removeMessageWithTiming(timestamp) {
-      const vm = this;
-      setTimeout(() => {
-        vm.messages.forEach((item, i) => {
-          if (item.timestamp === timestamp) {
-            vm.messages.splice(i, 1);
-          }
-        });
-      }, 5000);
-    },
-    // message 訊息
-    // status 樣式，預設值為 warning
-    openMessage(message, status = 'warning') {
-      this.updateMessage(message, status);
-    },
-  },
-  created() {
-    // 註冊監聽 message:push 事件，參數為 function
-    this.$bus.$on('message:push', this.openMessage);
-  },
-  beforeDestroy() {
-    // 手動銷毀事件，eventBus 不會自動清除
-    this.$bus.$off('message:push', this.openMessage);
   },
 };
 </script>
