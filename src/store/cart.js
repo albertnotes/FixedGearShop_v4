@@ -44,10 +44,12 @@ export default {
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/cart/${id}`;
       axios.delete(api).then((response) => {
         if (response.data.success) {
-          dispatch('updateMessage', {
-            message: response.data.message,
-            status: 'danger',
-          }, { root: true });
+          dispatch('getCart').then(() => {
+            dispatch('updateMessage', {
+              message: response.data.message,
+              status: 'danger',
+            }, { root: true });
+          });
           commit('LOADING', false, { root: true });
         }
       });

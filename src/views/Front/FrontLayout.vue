@@ -38,8 +38,12 @@ export default {
     FrontFooter,
   },
   mixins: [getProducts],
+  created() {
+    this.$store.commit('LOADING', true);
+  },
   mounted() {
     this.getProducts();
+    this.$store.commit('LOADING', false);
   },
 };
 </script>
