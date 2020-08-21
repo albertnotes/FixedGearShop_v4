@@ -192,6 +192,7 @@ export default {
       },
       set(val) {
         this.$store.commit('products/SEARCH_PRODUCT', val);
+        this.$store.commit('products/CURRENT_PAGE', 1);
       },
     },
     categoryProduct: {

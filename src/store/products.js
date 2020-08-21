@@ -63,15 +63,12 @@ export default {
       }
       return state.allProducts;
     },
-    pagination(state) {
-      const allPageItem = state.allProducts.length;
+    pagination(state, getters) {
+      const allPageItem = getters.filteredProducts.length;
       const { eachPageItem, currentPage } = state.pagination;
       const setting = {
         eachPageItem,
         currentPage,
-        totalPages: 0,
-        hasPre: false,
-        hasNext: false,
       };
       setting.totalPages = Math.ceil(allPageItem / setting.eachPageItem);
       setting.hasPre = setting.currentPage > 1;

@@ -20,9 +20,9 @@
           :key="page"
           :class="{ active: pagesData.currentPage === page }"
         >
-          <a class="page-link" href="#" @click.prevent="currentPage(page)">{{
-            page
-          }}</a>
+          <a class="page-link" href="#" @click.prevent="currentPage(page)">
+            {{ page }}
+          </a>
         </li>
         <!-- 綁定 Class 當無法前往下一頁時反轉為 true-->
         <li class="page-item" :class="{ disabled: !pagesData.hasNext }">
