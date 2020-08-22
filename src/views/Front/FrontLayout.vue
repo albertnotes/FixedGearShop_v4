@@ -16,6 +16,9 @@
 </template>
 
 <script>
+// Vuex
+import cartsModule from '@/store/cart';
+
 // mixins
 import getProducts from '@/mixin/getProducts';
 
@@ -38,12 +41,18 @@ export default {
     FrontFooter,
   },
   mixins: [getProducts],
+  beforeCreate() {
+    this.$store.registerModule('carts', cartsModule);
+  },
   created() {
     this.$store.commit('LOADING', true);
   },
   mounted() {
     this.getProducts();
     this.$store.commit('LOADING', false);
+  },
+  beforeDestroy() {
+    this.$store.unregisterModule('carts', cartsModule);
   },
 };
 </script>

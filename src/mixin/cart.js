@@ -1,11 +1,4 @@
 export default {
-  computed: {
-    carts: {
-      get() {
-        return this.$store.state.carts.carts;
-      },
-    },
-  },
   methods: {
     addToCart(id, qty = 1) {
       this.$store.dispatch('carts/addToCart', { id, qty });
