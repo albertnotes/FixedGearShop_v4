@@ -68,6 +68,8 @@
 </template>
 
 <script>
+import $ from 'jquery';
+
 export default {
   name: 'FrontFooter',
   data() {
@@ -78,11 +80,7 @@ export default {
   },
   methods: {
     scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth',
-      });
+      $('html, body').animate({ scrollTop: 0 }, 500);
     },
   },
 };
